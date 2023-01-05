@@ -36,9 +36,21 @@ kill -9 $process_id
 
 # run in foreground mode (press cmd + c to kill)
 bin/cassandra -f
+
+# check status with nodetool
+bin/nodetool status
+bin/nodetool info -h 127.0.0.1
+bin/nodetool ring
 ```
 
 - docker image starter [guide](https://cassandra.apache.org/_/quickstart.html)
+- find logs in `/var/log/cassandra/`
+- find commitlog, data, hints, saved_caches in `/var/lib/cassandra`
+
+```
+docker exec -it cassandra bash
+cd /opt/cassandra
+```
 
 ![alt-tet](./assets/docker_starter.png)
 
