@@ -54,6 +54,20 @@ cd /opt/cassandra
 
 ![alt-tet](./assets/docker_starter.png)
 
+### CQL - Cassandra Query Language
+
+- **Thrift** is an outdated, low-level API to comminucate with Cassandra
+- **CQL** is taking over Thrift for its SQL-friendly syntax
+  - does not have all SQL option (e.g. join) due to distributed nature of Cassandra
+- **JMX** Java Management Extension for cluster monitoring, task management, admin activities
+- case-insensitive, capital letters can be enforced in quotes (don't do it)
+
+```
+describe cluster
+describe keyspace
+describe tables
+```
+
 ### Architecture
 
 Snithces: help nodes understand the cluster topology
@@ -85,7 +99,3 @@ Virtual Nodes
 - default enabled in Cassandra, 256 virtual nodes in each physical node
 - can assign higher number of Vnodes in high-power computer
 - when new node is added, virtual nodes are distributed evenly without changing end-point value of existing nodes
-
-```
-
-```
