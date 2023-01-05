@@ -16,6 +16,31 @@ The notes are taken from:
   - recommendation/personalization
   - sensor, IOT
   - messaging
+- The primary version for Cassandra 4.0 is Java 8
+- production env uses linux (centos, redhat, debian, ubuntu)
+
+```bash
+# create folders for cassandar to write to
+sudo mkdir /var/lib/cassandra
+sudo mkdir /var/log/cassandra
+sudo chown -R $USER:$GROUP /var/lib/cassandra
+sudo chown -R $USER:$GROUP /var/log/cassandra
+
+# start cassandra in background mode
+# check for compatible Java version
+bin/cassandra
+
+# find process ID if running in background mode
+ps aux | grep cassandra
+kill -9 $process_id
+
+# run in foreground mode (press cmd + c to kill)
+bin/cassandra -f
+```
+
+- docker image starter [guide](https://cassandra.apache.org/_/quickstart.html)
+
+![alt-tet](./assets/docker_starter.png)
 
 ### Architecture
 
@@ -48,3 +73,7 @@ Virtual Nodes
 - default enabled in Cassandra, 256 virtual nodes in each physical node
 - can assign higher number of Vnodes in high-power computer
 - when new node is added, virtual nodes are distributed evenly without changing end-point value of existing nodes
+
+```
+
+```
