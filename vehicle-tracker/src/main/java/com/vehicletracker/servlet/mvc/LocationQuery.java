@@ -10,12 +10,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VehicleTracker {
+public class LocationQuery {
     private CqlSession session = null;
     private ResultSet result = null;
     private LinkedList <Location> resultList;
 
-    public VehicleTracker(String vehicleId, String trackDate) {
+    public LocationQuery(String vehicleId, String trackDate) {
         getData(vehicleId, trackDate);
     }
 

@@ -2,7 +2,7 @@ package com.vehicletracker.servlet;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.vehicletracker.servlet.mvc.Location;
-import com.vehicletracker.servlet.mvc.VehicleTracker;
+import com.vehicletracker.servlet.mvc.LocationQuery;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,15 +54,15 @@ public class VehicleTrackerServlet extends HttpServlet {
         out.println("<p>&nbsp;</p>");
 
         if (vehicleId != null) {
-            VehicleTracker vtd = new VehicleTracker(vehicleId, trackDate);
-            Iterator<Location> igs = vtd.getResultIterator();
-            if (igs.hasNext()) {
+            LocationQuery locationQuery = new LocationQuery(vehicleId, trackDate);
+            Iterator<Location> locations = locationQuery.getResultIterator();
+            if (locations.hasNext()) {
                 out.println("<hr/>");
                 out.println("<table cellpadding=\"4\">");
                 out.println("<tr><td colspan=\"3\"><h2>" + request.getParameter("veh_id") + "</h2></td></tr>");
                 out.println("<tr><td><b>Date and Time</b></td><td><b>Latitude</b></td><td><b>Longitude</b></td></tr>");
-                while (igs.hasNext()) {
-                    Location location = igs.next();
+                while (locations.hasNext()) {
+                    Location location = locations.next();
                     out.println("<tr>");
                     out.println("<td>" + location.getTime() + "</td>");
                     out.println("<td>" + location.getLatitude() + "</td>");
