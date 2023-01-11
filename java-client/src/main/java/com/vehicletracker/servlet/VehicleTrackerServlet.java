@@ -1,9 +1,8 @@
 package com.vehicletracker.servlet;
 
 import com.datastax.oss.driver.api.core.CqlSession;
-import com.datastax.oss.driver.api.core.cql.ResultSet;
-import com.datastax.oss.driver.api.core.cql.Row;
-import com.datastax.oss.driver.api.core.cql.SimpleStatement;
+import com.vehicletracker.servlet.mvc.Location;
+import com.vehicletracker.servlet.mvc.VehicleTracker;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
-import java.util.List;
+import java.util.Iterator;
 
 @WebServlet("/track")
 public class VehicleTrackerServlet extends HttpServlet {
@@ -35,14 +34,6 @@ public class VehicleTrackerServlet extends HttpServlet {
 
         String vehicleId = request.getParameter("veh_id");
         String trackDate = request.getParameter("date_val");
-        String cql = "select time, latitude, longitude from location where vehicle_id = '"
-                + vehicleId + "' and date = '" + trackDate + "';";
-        SimpleStatement statement = SimpleStatement.newInstance(cql);
-        ResultSet result = session.execute(statement);
-        List<Row> rows = result.all();
-
-        System.out.println(cql);
-        System.out.println(String.format("Found %d records", rows.size()));
 
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"><html>");
@@ -62,25 +53,28 @@ public class VehicleTrackerServlet extends HttpServlet {
         out.println("</form>");
         out.println("<p>&nbsp;</p>");
 
-        if (request.getParameter("veh_id") == null) {
-            // blank
-        } else if (rows.size() == 0) {
-            out.println("<hr/>");
-            out.println("<p>&nbsp;</p>");
-            out.println("Sorry, no results for vehicle id " + request.getParameter("veh_id") + " for " + request.getParameter("date_val"));
-        } else {
-            out.println("<hr/>");
-            out.println("<table cellpadding=\"4\">");
-            out.println("<tr><td colspan=\"3\"><h2>" + request.getParameter("veh_id") + "</h2></td></tr>");
-            out.println("<tr><td><b>Date and Time</b></td><td><b>Latitude</b></td><td><b>Longitude</b></td></tr>");
-            for (Row row : rows) {
-                out.println("<tr>");
-                out.println("<td>" + row.getInstant("time") + "</td>");
-                out.println("<td>" + row.getDouble("latitude") + "</td>");
-                out.println("<td>" + row.getDouble("longitude") + "</td>");
-                out.println("</tr>");
+        if (vehicleId != null) {
+            VehicleTracker vtd = new VehicleTracker(vehicleId, trackDate);
+            Iterator<Location> igs = vtd.getResultIterator();
+            if (igs.hasNext()) {
+                out.println("<hr/>");
+                out.println("<table cellpadding=\"4\">");
+                out.println("<tr><td colspan=\"3\"><h2>" + request.getParameter("veh_id") + "</h2></td></tr>");
+                out.println("<tr><td><b>Date and Time</b></td><td><b>Latitude</b></td><td><b>Longitude</b></td></tr>");
+                while (igs.hasNext()) {
+                    Location location = igs.next();
+                    out.println("<tr>");
+                    out.println("<td>" + location.getTime() + "</td>");
+                    out.println("<td>" + location.getLatitude() + "</td>");
+                    out.println("<td>" + location.getLongitude()+ "</td>");
+                    out.println("</tr>");
+                }
+                out.println("</table>");
+            } else {
+                out.println("<hr/>");
+                out.println("<p>&nbsp;</p>");
+                out.println("Sorry, no results for vehicle id " + request.getParameter("veh_id") + " for " + request.getParameter("date_val"));
             }
-            out.println("</table>");
         }
         out.println("</body></html>");
     }
