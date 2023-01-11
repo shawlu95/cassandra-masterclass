@@ -28,15 +28,28 @@ public class VehicleTrackerServlet extends HttpServlet {
                 .build();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html");
 
-        SimpleStatement statement = SimpleStatement.newInstance("select * from location");
-        ResultSet resultSet = session.execute(statement);
-        Row row = resultSet.one();
-        System.out.println(row.getString("vehicle_id"));
+        String vehicleId = "CA6AFL218";
+        String trackDate = "2014-05-19";
+        String cql = "select time, latitude, longitude from location where vehicle_id = '"
+                + vehicleId + "' and date = '" + trackDate + "';";
+        SimpleStatement statement = SimpleStatement.newInstance(cql);
+        ResultSet result = session.execute(statement);
 
         PrintWriter out = response.getWriter();
-        out.println("<h3>Hello World!</h3>");
+        out.println("<html><head></head><body>");
+        out.println("<table>");
+        for (Row row : result) {
+            out.println("<tr>");
+            out.println("<td>" + row.getInstant("time") + "</td>");
+            out.println("<td>" + row.getDouble("latitude") + "</td>");
+            out.println("<td>" + row.getDouble("longitude") + "</td>");
+            out.println("</tr>");
+        }
+        out.println("</table>");
+        out.println("</body></html>");
     }
 }
