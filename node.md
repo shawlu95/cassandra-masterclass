@@ -58,6 +58,23 @@ docker exec -it cassandra_2 bash
 cd /var/lib/cassandra/data/
 ```
 
+Adding a third node
+
+```bash
+docker run --rm \
+  --name cassandra_3 \
+  --network cassandra \
+  -d -v "$(pwd)/:/home/" \
+  -e CASSANDRA_SEEDS=cassandra_1,cassandra_2 \
+  cassandra
+```
+
+Spinning up (the keyspace has replication factor = 2)
+![alt-text](./assets/replication_3.png)
+
+After adding a third node, none of them owns the 100% tokeb
+![alt-text](./assets/replication_3b.png)
+
 ### Create Keyspace
 
 From node cassandra_1, using cqlsh shell to create keyspace, table, and ingest data.
