@@ -86,8 +86,8 @@ select home_id, code_used from activity;
 ```bash
 cd learning_apache_cassandra_working_files
 
-# start up cassandra
-docker run --rm -d -v "$(pwd)/:/home/" --name cassandra --hostname cassandra --network cassandra cassandra
+# start up cassandra, expose 9042 to host machine
+docker run --rm -d -v "$(pwd)/:/home/" -p 9042:9042 --name cassandra --hostname cassandra --network cassandra cassandra
 
 # start up cql shell
 docker run --rm -it --network cassandra \
