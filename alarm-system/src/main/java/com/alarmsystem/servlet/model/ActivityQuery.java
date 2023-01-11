@@ -1,6 +1,6 @@
 package com.alarmsystem.servlet.model;
 
-import com.alarmsystem.servlet.Connection;
+import com.alarmsystem.servlet.Session;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
@@ -18,7 +18,7 @@ public class ActivityQuery {
     }
 
     protected void getData(String homeId) {
-        CqlSession session = Connection.getInstance();
+        CqlSession session = Session.getInstance();
         String cql = "SELECT datetime, event, code_used FROM home_security.activity WHERE home_id = '" + homeId + "'";
         SimpleStatement statement = SimpleStatement.newInstance(cql);
         ResultSet result = session.execute(statement);
