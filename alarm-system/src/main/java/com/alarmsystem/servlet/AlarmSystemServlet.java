@@ -2,6 +2,8 @@ package com.alarmsystem.servlet;
 
 import com.alarmsystem.servlet.model.Activity;
 import com.alarmsystem.servlet.model.ActivityQuery;
+import com.alarmsystem.servlet.model.Home;
+import com.alarmsystem.servlet.model.HomeQuery;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,12 +40,22 @@ public class AlarmSystemServlet extends HttpServlet {
         out.println("<p>&nbsp;</p>");
 
         if (homeId != null) {
-            ActivityQuery query = new ActivityQuery(homeId);
-            Iterator<Activity> igs = query.getResultIterator();
-            if (igs.hasNext()) {
+            HomeQuery homeQuery = new HomeQuery(homeId);
+            Iterator<Home> homes = homeQuery.getResultIterator();
+            if (homes.hasNext()) {
+                Home home = homes.next();
+                out.println("<p>");
+                out.println("<b>" + home.getContactName() + "</b>, ");
+                out.println(home.getAddress() + ", " + home.getCity() + ", " + home.getState() + ", " + home.getZip());
+                out.println("</p>");
+            }
+
+            ActivityQuery activityQuery = new ActivityQuery(homeId);
+            Iterator<Activity> activities = activityQuery.getResultIterator();
+            if (activities.hasNext()) {
                 out.println("<table style=\"font:14px verdana,arial,sans-serif\" cellpadding=\"4\">");
-                while (igs.hasNext()) {
-                    Activity activity = igs.next();
+                while (activities.hasNext()) {
+                    Activity activity = activities.next();
                     out.println("<tr>");
                     out.println("<td>" + activity.getDatetime() + "</td>");
                     out.println("<td>" + activity.getEvent() + "</td>");
