@@ -1,2 +1,2 @@
-java-client/.idea/*
-java-client/target/*
+*/.idea/*
+*/target/*
