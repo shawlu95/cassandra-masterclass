@@ -4,7 +4,7 @@ import com.datastax.oss.driver.api.core.CqlSession;
 
 import java.net.InetSocketAddress;
 
-public class Connection {
+public class Session {
     private static CqlSession instance = null;
 
     public static CqlSession getInstance() {

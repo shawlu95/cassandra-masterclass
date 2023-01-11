@@ -4,7 +4,7 @@ import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
-import com.vehicletracker.servlet.Connection;
+import com.vehicletracker.servlet.Session;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,7 +20,7 @@ public class LocationQuery {
     }
 
     protected void getData(String vehicleId, String trackDate) {
-        session = Connection.getInstance();
+        session = Session.getInstance();
         String cql = "select time, latitude, longitude from location where vehicle_id = '"
                 + vehicleId + "' and date = '" + trackDate + "';";
         SimpleStatement statement = SimpleStatement.newInstance(cql);
