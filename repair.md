@@ -1,5 +1,8 @@
 ## Repair
 
+- anti-entropy, repair
+- use Merkle tree to reconcile conflict between replicas
+- each table has its own Merkle tree
 - updating a node's data to be current, use case:
   - replication factor increased
   - token range changed

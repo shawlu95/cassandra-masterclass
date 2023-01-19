@@ -5,6 +5,9 @@ if consistency level is N:
 - just need N nodes to fulfill read request to be successful
 - just need N nodes to fulfill write request to be successful
 - if the number of replicas drops below N, read and write will all fail
+- number of read nodes before returning the data
+- `R+W>RF` means strong consistency
+- any node can accept read or write, becomes the "coordinator node"
 
 many available options: `one`, `two`, `quorum` (for strong consistency), `all` (not recommended, too rigid) etc
 
@@ -19,6 +22,8 @@ consistency;
 
 ## Hinted Handoff
 
+- a node will "hand off" to node B about the write
+- allow Canssandra to always be available for writes
 - enabeld by default
 - allow write even if nodes are down
 - node accepting the write request is "coordinator node"

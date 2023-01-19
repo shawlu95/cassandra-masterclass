@@ -1,5 +1,9 @@
 ## Time-to-Live
 
+- primary key cannot have `write_time` or `ttl`
+- update associates a write time to each updated column
+- update can assign a `ttl` to the updated column
+- insert can assign a `ttl` to the entire new row
 - General syntax: `insert into ... using TTL 30;`
 - expired records are marked with tombstone, and removed from disk after grace period
 
