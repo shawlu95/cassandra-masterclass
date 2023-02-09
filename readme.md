@@ -144,6 +144,10 @@ bloom filter
 - lots of writes throughput
 - built-in support geographical distribution
 - can build across multiple cloud provider, at network layer (not db layer)
+- spark integration
+  - read and write Cassandra tables as dataframe
+  - use spark for analytics on data stored in cassandra
+  - use spark to transform data and store back onto cassandra for transactional use
 
 ```bash
 docker pull cassandra
